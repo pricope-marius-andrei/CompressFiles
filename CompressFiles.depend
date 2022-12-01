@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1669890048 source:c:\users\andrei\desktop\proiect principal ip\main.cpp
+	<iostream>
+	<fstream>
+	<algorithm>
+	"huffmanAlghoritm.h"
+
+1669889953 c:\users\andrei\desktop\proiect principal ip\huffmanalghoritm.h
+

@@ -1,12 +1,23 @@
 #ifndef HUFFMANALGHORITM_H_INCLUDED
 #define HUFFMANALGHORITM_H_INCLUDED
+#include <iostream>
+#include <fstream>
+#include <unordered_map>
 
+using namespace std;
+
+ifstream in("date.in");
+ofstream out("date.out");
 
 struct nod{
+    char caracter;
     int frec;
     nod *urm;
     nod *stg,*drt;
 };
+
+///un hashmap pentru a retine codurile fiecarui caracter
+unordered_map <char,string> coduri;
 
 void citireElemente(nod *&elemente, unsigned int n)
 {
@@ -16,6 +27,7 @@ void citireElemente(nod *&elemente, unsigned int n)
         in >> x;
 
         nod *nouNod = new nod;
+        nouNod -> caracter = 'A' + i;
         nouNod -> frec = x;
         nouNod -> stg = nouNod -> drt = nouNod -> urm = NULL;
 
@@ -98,7 +110,8 @@ void parcurgere(nod *rad, string cod)
 {
     if(rad -> stg == NULL && rad -> drt == NULL)
     {
-        cout << cod << endl;
+        ///retinem codurile intr-un hashmap
+        coduri[rad->caracter] = cod;
         return;
     }
     else

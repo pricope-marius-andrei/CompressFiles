@@ -5,9 +5,6 @@
 
 using namespace std;
 
-ifstream in("date.in");
-ofstream out("date.out");
-
 unsigned int n; ///numarul de caractere
 unsigned long long int lg; /// lungime dupa aplicarea algoritmului
 

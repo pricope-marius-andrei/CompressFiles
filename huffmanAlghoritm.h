@@ -1,6 +1,13 @@
-#ifndef HUFFMANALGHORITM_H_INCLUDED
-#define HUFFMANALGHORITM_H_INCLUDED
+#ifndef huffmanAlgorithm_h
+#define huffmanAlgorithm_h
 
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+ifstream in("date.in");
+ofstream out("date.out");
 
 struct nod{
     int frec;
@@ -51,7 +58,7 @@ void stergereNoduri(nod *&elemente)
 {
     if(elemente->urm == NULL)
     {
-        cout << "NU PUTEM ELIMINA";
+        out << "NU PUTEM ELIMINA";
     }
     else
     {
@@ -98,15 +105,22 @@ void parcurgere(nod *rad, string cod)
 {
     if(rad -> stg == NULL && rad -> drt == NULL)
     {
-        cout << cod << endl;
+        out << cod << " " << rad -> frec << " " << endl;
         return;
     }
     else
     {
-        //cout << rad->frec << ' ';
         parcurgere(rad->stg, cod + "0");
         parcurgere(rad->drt, cod + "1");
     }
+}
+
+int suma(nod *rad)
+{
+    if (rad -> stg == NULL && rad -> drt == NULL)
+        return 0;
+    else
+        return rad -> frec + suma(rad->stg) + suma(rad->drt);
 }
 
 #endif

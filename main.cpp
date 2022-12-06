@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
-#include "huffmanAlgorithm.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "huffmanAlghoritm.h"
 
 using namespace std;
 
@@ -12,6 +14,10 @@ string codificare;
 
 int main()
 {
+    FILE * fisierText = fopen("D:\\Programming\\Facultate\\IP\\Proiect Compresie Fisiere\\CompressFiles\\fisierText.txt", "r");
+
+    determinareFrecventa(fisierText);
+
     nod* elemente = new nod;
     elemente = NULL;
 
@@ -27,6 +33,6 @@ int main()
     }
 
     parcurgere(elemente,codificare);
-    out << suma(elemente);
+    fclose(fisierText);
     return 0;
 }

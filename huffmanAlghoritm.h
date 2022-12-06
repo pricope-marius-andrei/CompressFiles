@@ -18,6 +18,7 @@ struct nod{
 
 ///un hashmap pentru a retine codurile fiecarui caracter
 unordered_map <char,string> coduri;
+unordered_map <char,int> frecventaCaractere;
 
 void citireElemente(nod *&elemente, unsigned int n)
 {
@@ -46,6 +47,31 @@ void citireElemente(nod *&elemente, unsigned int n)
 
             p -> urm = nouNod;
         }
+    }
+}
+
+void determinareFrecventa(FILE *fisier)
+{
+    if(fisier != NULL) {
+        while(true)
+        {
+            // Citim caracter cu caracter din fisier
+            char c = fgetc(fisier);
+            //printf("%c",c);
+            // Verificicam daca am ajuns la finalul fisierului
+            if (feof(fisier))
+                break ;
+
+            frecventaCaractere[c]++;
+        }
+    }
+
+    for(auto it = frecventaCaractere.cbegin(); it != frecventaCaractere.cend(); ++it)
+    {
+        if(it->first == '\n')
+            printf("%c %d \n", '^', it->second);
+        else
+            printf("%c %d \n", it->first, it->second);
     }
 }
 

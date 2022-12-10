@@ -1,5 +1,7 @@
 #include <iostream>
 #include <unordered_map>
+#include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -13,6 +15,21 @@ struct nod{
 ///un hashmap pentru a retine codurile fiecarui caracter
 unordered_map <char,string> coduri;
 unordered_map <char,int> frecventaCaractere;
+string textInitial;
+
+int conversieBaze(string cod)
+{
+    int putere = 0;
+    int numar = 0;
+    for(int i = cod.size() - 1; i >= 0; i--)
+    {
+        if(cod[i] != '0')
+            numar += pow(2,putere);
+        putere++;
+    }
+
+    return numar;
+}
 
 void determinareFrecventa(FILE *fisier)
 {
@@ -21,6 +38,8 @@ void determinareFrecventa(FILE *fisier)
         {
             // Citim caracter cu caracter din fisier
             char c = fgetc(fisier);
+            //retinem textul initial
+            textInitial.push_back(c);
             //printf("%c",c);
             // Verificicam daca am ajuns la finalul fisierului
             if (feof(fisier))
@@ -58,9 +77,17 @@ void creareListaDeCaractere(nod *&elemente, unordered_map <char,int> caractere)
     }
 }
 
+bool cmp(pair<char, int> &a, pair<char, int> &b)
+{
+    return a.second<b.second;
+}
+
 void sortareLista(unordered_map <char,int> caractere)
 {
-
+    vector<pair<char,int>> A;
+    for (auto& it : caractere)
+        A.push_back(it);
+    sort(A.begin(), A.end(), cmp);
 }
 
 nod* creareNod(nod *elemente)

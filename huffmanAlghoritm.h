@@ -1,13 +1,7 @@
-#ifndef HUFFMANALGHORITM_H_INCLUDED
-#define HUFFMANALGHORITM_H_INCLUDED
 #include <iostream>
-#include <fstream>
 #include <unordered_map>
 
 using namespace std;
-
-ifstream in("date.in");
-ofstream out("date.out");
 
 struct nod{
     char caracter;
@@ -20,16 +14,30 @@ struct nod{
 unordered_map <char,string> coduri;
 unordered_map <char,int> frecventaCaractere;
 
-void citireElemente(nod *&elemente, unsigned int n)
+void determinareFrecventa(FILE *fisier)
 {
-    for(int i = 0; i < n; i++)
-    {
-        int x;
-        in >> x;
+    if(fisier != NULL) {
+        while(true)
+        {
+            // Citim caracter cu caracter din fisier
+            char c = fgetc(fisier);
+            //printf("%c",c);
+            // Verificicam daca am ajuns la finalul fisierului
+            if (feof(fisier))
+                break ;
 
+            frecventaCaractere[c]++;
+        }
+    }
+}
+
+void creareListaDeCaractere(nod *&elemente, unordered_map <char,int> caractere)
+{
+    for(auto it = caractere.begin(); it != caractere.end(); ++it)
+    {
         nod *nouNod = new nod;
-        nouNod -> caracter = 'A' + i;
-        nouNod -> frec = x;
+        nouNod -> caracter = it->first;
+        nouNod -> frec = it->second;
         nouNod -> stg = nouNod -> drt = nouNod -> urm = NULL;
 
 
@@ -50,29 +58,9 @@ void citireElemente(nod *&elemente, unsigned int n)
     }
 }
 
-void determinareFrecventa(FILE *fisier)
+void sortareLista(unordered_map <char,int> caractere)
 {
-    if(fisier != NULL) {
-        while(true)
-        {
-            // Citim caracter cu caracter din fisier
-            char c = fgetc(fisier);
-            //printf("%c",c);
-            // Verificicam daca am ajuns la finalul fisierului
-            if (feof(fisier))
-                break ;
 
-            frecventaCaractere[c]++;
-        }
-    }
-
-    for(auto it = frecventaCaractere.cbegin(); it != frecventaCaractere.cend(); ++it)
-    {
-        if(it->first == '\n')
-            printf("%c %d \n", '^', it->second);
-        else
-            printf("%c %d \n", it->first, it->second);
-    }
 }
 
 nod* creareNod(nod *elemente)
@@ -83,22 +71,6 @@ nod* creareNod(nod *elemente)
     nouNod->stg = elemente;
     nouNod->drt = elemente->urm;
     return nouNod;
-}
-
-void stergereNoduri(nod *&elemente)
-{
-    if(elemente->urm == NULL)
-    {
-        out << "NU PUTEM ELIMINA";
-    }
-    else
-    {
-        nod *first = elemente;
-        nod *second = elemente -> urm;
-        elemente = elemente -> urm -> urm;
-        delete first;
-        delete second;
-    }
 }
 
 void inserareNoduri(nod *&elemente, nod* nodNou)
@@ -154,5 +126,3 @@ int suma(nod *rad)
     else
         return rad -> frec + suma(rad->stg) + suma(rad->drt);
 }
-
-#endif

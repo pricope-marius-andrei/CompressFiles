@@ -16,14 +16,17 @@ int main()
 {
     FILE * fisierText = fopen("D:\\Programming\\Facultate\\IP\\Proiect Compresie Fisiere\\CompressFiles\\fisierText.txt", "r");
 
-    determinareFrecventa(fisierText);
-
+    ///lista in care vom retine nodurile frunza de la inceput
     nod* elemente = new nod;
     elemente = NULL;
 
-    in >> n;
+    ///determinarea frecventei din fisier a caracterelor
+    determinareFrecventa(fisierText);
 
-    citireElemente(elemente,n);
+    ///sortare dupa frecventa caracterelor
+
+    ///introducerea nodurilor frunza in lista de elemente
+    creareListaDeCaractere(elemente,frecventaCaractere);
 
     while(elemente -> urm != NULL)
     {
@@ -33,6 +36,18 @@ int main()
     }
 
     parcurgere(elemente,codificare);
+    for(auto it=coduri.begin(); it != coduri.end();++it)
+    {
+        if(it->first == '\n')
+        {
+            cout << "}:" << it->second <<":"<<frecventaCaractere[it->first] << '\n';
+        }
+        else
+        {
+            cout << it->first << ":" << it->second <<":"<<frecventaCaractere[it->first] << '\n';
+        }
+
+    }
     fclose(fisierText);
     return 0;
 }

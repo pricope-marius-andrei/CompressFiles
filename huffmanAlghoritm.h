@@ -17,6 +17,28 @@ unordered_map <char,string> coduri;
 unordered_map <char,int> frecventaCaractere;
 string textInitial;
 
+///varibile folosite pentru scrierea, bit cu bit, in fisier
+int bitCurent = 0;
+unsigned char byteToWrite;
+
+void scrieBit(FILE *file,string cod)
+{
+    for(int i = cod.size() - 1  ; i >= 0; i--) {
+        unsigned char bit = cod[i];
+        if(bit != '0')
+            byteToWrite |= (1<<bitCurent);
+
+        ++bitCurent;
+        if(bitCurent == 8)
+        {
+            cout << byteToWrite << ' ';
+            fwrite(&byteToWrite,1,1,file);
+            bitCurent = 0;
+            byteToWrite = 0;
+        }
+    }
+}
+
 int conversieBaze(string cod)
 {
     int putere = 0;

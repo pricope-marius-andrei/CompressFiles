@@ -7,7 +7,7 @@
 
 1669889953 c:\users\andrei\desktop\proiect principal ip\huffmanalghoritm.h
 
-1670760610 source:d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\main.cpp
+1670872957 source:d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\main.cpp
 	<iostream>
 	<fstream>
 	<algorithm>
@@ -16,7 +16,7 @@
 	<bitset>
 	"huffmanAlghoritm.h"
 
-1670761204 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\huffmanalghoritm.h
+1670767433 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\huffmanalghoritm.h
 	<iostream>
 	<unordered_map>
 	<vector>

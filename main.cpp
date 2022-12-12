@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     cout << "Compress(1)/Decompress(2):";
     cin >> compresie;
     if(compresie == 1) {
-        FILE * fisierText = fopen(argv[1], "r");
+        FILE * fisierText = fopen(argv[1], "rb");
         FILE * fisierCompresat = fopen(argv[2], "wb");
         ///lista in care vom retine nodurile frunza de la inceput
         nod* elemente = new nod;
@@ -56,26 +56,28 @@ int main(int argc, char *argv[])
             }
 
         }*/
-        fwrite(elemente,sizeof(struct nod),1,fisierCompresat);
+        //fwrite(elemente,sizeof(struct nod),1,fisierCompresat);
 
         for(int i = 0; i < textInitial.size(); i++)
         {
             scrieBit(fisierCompresat,coduri[textInitial[i]]);
         }
-        if(fisierCompresat)
+        if(fisierCompresat && fisierText)
             cout << "FISIERUL A FOST COMPRESAT CU SUCCES!";
         else
             cout << "FISIERUL NU A PUTUT FI GASIT!";
         fclose(fisierText);
         fclose(fisierCompresat);
     }
-    else
+    else if(compresie == 2)
     {
-        FILE * fisierCompresat = fopen("D:\\Programming\\Facultate\\IP\\Proiect Compresie Fisiere\\CompressFiles\\fisierCompresat.txt", "rb");
+        FILE * fisierCompresat = fopen(argv[3], "rb");
         if(fisierCompresat){
-            nod *elemente;
-            fread(elemente,sizeof(struct nod),1,fisierCompresat);
-            cout << elemente ->frec;
+            cout << "FISIERUL A FOST DESCHIS";
+        }
+        else
+        {
+            cout << "NU A FOST GASIT FISIERUL";
         }
         /*for(auto it=coduri.begin(); it != coduri.end();++it)
         {

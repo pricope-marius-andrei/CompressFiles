@@ -56,16 +56,19 @@ int main(int argc, char *argv[])
             }
 
         }*/
-        //fwrite(elemente,sizeof(struct nod),1,fisierCompresat);
+        serializeTree(fisierCompresat,elemente);
 
+        ///luam fiecare caracter din textulInitial si le inlocuim cu codul creat pentru el
         for(int i = 0; i < textInitial.size(); i++)
         {
             scrieBit(fisierCompresat,coduri[textInitial[i]]);
         }
+
         if(fisierCompresat && fisierText)
             cout << "FISIERUL A FOST COMPRESAT CU SUCCES!";
         else
             cout << "FISIERUL NU A PUTUT FI GASIT!";
+
         fclose(fisierText);
         fclose(fisierCompresat);
     }
@@ -78,18 +81,12 @@ int main(int argc, char *argv[])
         else
         {
             cout << "NU A FOST GASIT FISIERUL";
+            return 0;
         }
-        /*for(auto it=coduri.begin(); it != coduri.end();++it)
-        {
-            if(it->first == '\n')
-            {
-                cout << "}:" << it->second <<":"<<frecventaCaractere[it->first] << '\n';
-            }
-            else
-            {
-                cout << it->first << ":" << it->second <<":"<<frecventaCaractere[it->first] << '\n';
-            }
-        }*/
+        nod *arboreHuffman;
+        deserializeTree(fisierCompresat,arboreHuffman);
+        //cout << "Caractere din fisier" << '\n';
+        //parcurgereArbore(arboreHuffman);
 
         fclose(fisierCompresat);
     }

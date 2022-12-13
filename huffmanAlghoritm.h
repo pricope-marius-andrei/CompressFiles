@@ -21,6 +21,36 @@ string textInitial;
 int bitCurent = 0;
 unsigned char byteToWrite;
 
+void serializeTree(FILE *file, nod* root)
+{
+    if(root == NULL)
+    {
+        fwrite("1",sizeof(char),1,file); ///pun 1 pentru test
+        return;
+    }
+    else
+    {
+        fwrite(&root->caracter,sizeof(char),1,file);
+        serializeTree(file,root->stg);
+        serializeTree(file,root->drt);
+    }
+}
+
+void deserializeTree(FILE *file, nod*& root)
+{
+    char character;
+    fread(&character,sizeof(char),1,file);
+    if(character == '1') {
+        root = NULL;
+        return;
+    }
+
+    root = new nod;
+    root ->caracter = character;
+    deserializeTree(file,root->stg);
+    deserializeTree(file,root->drt);
+}
+
 void scrieBit(FILE *file, string cod)
 {
     for(int i = cod.size() - 1  ; i >= 0; i--) {
@@ -119,6 +149,7 @@ nod* creareNod(nod *elemente)
     nouNod->urm = NULL;
     nouNod->stg = elemente;
     nouNod->drt = elemente->urm;
+    nouNod->caracter = '.';
     return nouNod;
 }
 
@@ -158,13 +189,30 @@ void parcurgere(nod *rad, string cod)
     if(rad -> stg == NULL && rad -> drt == NULL)
     {
         ///retinem codurile intr-un hashmap
+        cout <<rad->caracter << ":" << rad->frec << '\n';
         coduri[rad->caracter] = cod;
         return;
     }
     else
     {
+        cout <<rad->caracter << ":" << rad->frec << '\n';
         parcurgere(rad->stg, cod + "0");
         parcurgere(rad->drt, cod + "1");
+    }
+}
+
+
+void parcurgereArbore(nod *rad)
+{
+    if(rad -> stg == NULL && rad -> drt == NULL)
+    {
+        cout << rad->caracter;
+        return;
+    }
+    else
+    {
+        parcurgereArbore(rad->stg);
+        parcurgereArbore(rad->drt);
     }
 }
 

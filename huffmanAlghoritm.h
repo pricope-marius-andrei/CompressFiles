@@ -20,7 +20,7 @@ string textInitial;
 ///varibile folosite pentru scrierea, bit cu bit, in fisier
 int bitCurent = 0;
 unsigned char byteToWrite;
-
+///
 void serializeTree(FILE *file, nod* root)
 {
     if(root == NULL)
@@ -69,7 +69,7 @@ void scrieBit(FILE *file, string cod)
     }
 }
 
-int conversieBaze(string cod)
+/*int conversieBaze(string cod)
 {
     int putere = 0;
     int numar = 0;
@@ -81,7 +81,7 @@ int conversieBaze(string cod)
     }
 
     return numar;
-}
+}*/
 
 void determinareFrecventa(FILE *fisier)
 {

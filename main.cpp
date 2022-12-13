@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
         nod *arboreHuffman;
         deserializeTree(fisierCompresat,arboreHuffman);
         //cout << "Caractere din fisier" << '\n';
-        //parcurgereArbore(arboreHuffman);
+        parcurgere(arboreHuffman, codificare);
 
         fclose(fisierCompresat);
     }

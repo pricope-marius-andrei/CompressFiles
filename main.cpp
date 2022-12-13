@@ -15,10 +15,10 @@ unsigned long long int lg; /// lungime dupa aplicarea algoritmului
 
 string codificare;
 
-int main()
+int main(int argc, char *argv[])
 {
-    FILE * fisierText = fopen("D:\\Programming\\Facultate\\IP\\Proiect Compresie Fisiere\\CompressFiles\\fisierText.txt", "r");
-    FILE * fisierCompresat = fopen("D:\\Programming\\Facultate\\IP\\Proiect Compresie Fisiere\\CompressFiles\\fisierCompresat.txt", "wb");
+    FILE * fisierText = fopen(argv[1], "r");
+    FILE * fisierCompresat = fopen("C:\\Users\\Andrei\\Desktop\\compresing\\fisierCompresatCompresat.txt", "wb");
     ///lista in care vom retine nodurile frunza de la inceput
     nod* elemente = new nod;
     elemente = NULL;
@@ -40,7 +40,7 @@ int main()
     }
 
     parcurgere(elemente,codificare);
-    for(auto it=coduri.begin(); it != coduri.end();++it)
+    /*for(auto it=coduri.begin(); it != coduri.end();++it)
     {
         if(it->first == '\n')
         {
@@ -51,7 +51,7 @@ int main()
             cout << it->first << ":" << it->second <<":"<<frecventaCaractere[it->first] << '\n';
         }
 
-    }
+    }*/
 
     fwrite(&coduri,sizeof(coduri),1,fisierCompresat);
 

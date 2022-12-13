@@ -22,3 +22,18 @@
 	<vector>
 	<cmath>
 
+1670876303 source:c:\users\andrei\desktop\compresing\main.cpp
+	<iostream>
+	<fstream>
+	<algorithm>
+	<stdlib.h>
+	<stdio.h>
+	<bitset>
+	"huffmanAlghoritm.h"
+
+1670804473 c:\users\andrei\desktop\compresing\huffmanalghoritm.h
+	<iostream>
+	<unordered_map>
+	<vector>
+	<cmath>
+

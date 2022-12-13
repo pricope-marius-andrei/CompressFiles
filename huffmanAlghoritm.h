@@ -31,7 +31,7 @@ void scrieBit(FILE *file,string cod)
         ++bitCurent;
         if(bitCurent == 8)
         {
-            cout << byteToWrite << ' ';
+           // cout << byteToWrite << ' ';
             fwrite(&byteToWrite,1,1,file);
             bitCurent = 0;
             byteToWrite = 0;

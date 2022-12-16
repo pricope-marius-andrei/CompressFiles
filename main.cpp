@@ -65,6 +65,12 @@ int main(int argc, char *argv[])
             scrieBit(fisierCompresat,coduri[textInitial[i]]);
         }
 
+        ///scriem ultimul caracter in fisier, in cazul in care nu a fost completat ultimul byte
+        /*if(byteToWrite != 0)
+        {
+            fwrite(&byteToWrite,sizeof(unsigned char),1,fisierCompresat);
+        }*/
+
         if(fisierCompresat && fisierText)
             cout << "FISIERUL A FOST COMPRESAT CU SUCCES!";
         else
@@ -89,6 +95,7 @@ int main(int argc, char *argv[])
 
         ///retin codul textului initial
         string codare = citireCaractereFisierCompresat(fisierCompresat);
+        cout << codare << endl;
 
         unsigned int index = 0;
         while(index < codare.size())

@@ -33,18 +33,24 @@ string citireCaractereFisierCompresat(FILE *file)
             unsigned int asciiCode = (unsigned int)c;
              if (feof(file))
                 break ;
-            //cout << asciiCode << ' ';
+            cout << asciiCode << ' ';
 
-            while(asciiCode)
+            for(int i = 0; i < 8; i++)
             {
-                if(asciiCode % 2 == 0) {
-                    //cout << '0';
-                    codare.push_back('0');
+                if(asciiCode) {
+                    if(asciiCode % 2 == 0) {
+                        //cout << '0';
+                        codare.push_back('0');
+                    }
+                    else
+                    {
+                        //cout <<'1';
+                        codare.push_back('1');
+                    }
                 }
                 else
                 {
-                    //cout <<'1';
-                    codare.push_back('1');
+                    codare.push_back('0');
                 }
                 asciiCode /= 2;
             }
@@ -92,12 +98,10 @@ void scrieBit(FILE *file, string cod)
         unsigned char bit = cod[i];
         if(bit != '0')
             byteToWrite |= (1 << bitCurent);
-
         ++bitCurent;
         if(bitCurent == 8)
         {
-            //cout << (int)byteToWrite << ' ';
-            fwrite(&byteToWrite,1,1,file);
+            fwrite(&byteToWrite,sizeof(unsigned char),1,file);
             bitCurent = 0;
             byteToWrite = 0;
         }

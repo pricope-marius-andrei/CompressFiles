@@ -31,10 +31,10 @@ int main(int argc, char *argv[])
         determinareFrecventa(fisierText);
 
         ///sortare dupa frecventa caracterelor
-        sortareLista(frecventaCaractere);
+        vector<pair<char,int>> elementeSortate = sortareLista(frecventaCaractere);
 
         ///introducerea nodurilor frunza in lista de elemente
-        creareListaDeCaractere(elemente,frecventaCaractere);
+        creareListaDeCaractere(elemente,elementeSortate);
 
         while(elemente -> urm != NULL)
         {
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
         }
 
         parcurgere(elemente,codificare);
-        /*for(auto it=coduri.begin(); it != coduri.end();++it)
+        for(auto it=coduri.begin(); it != coduri.end();++it)
         {
             if(it->first == '\n')
             {
@@ -55,11 +55,12 @@ int main(int argc, char *argv[])
                 cout << it->first << ":" << it->second <<":"<<frecventaCaractere[it->first] << '\n';
             }
 
-        }*/
+        }
+        cout << endl;
         serializeTree(fisierCompresat,elemente);
 
         ///luam fiecare caracter din textulInitial si le inlocuim cu codul creat pentru el
-        for(int i = 0; i < textInitial.size(); i++)
+        for(unsigned int i = 0; i < textInitial.size(); i++)
         {
             scrieBit(fisierCompresat,coduri[textInitial[i]]);
         }
@@ -76,18 +77,28 @@ int main(int argc, char *argv[])
     {
         FILE * fisierCompresat = fopen(argv[3], "rb");
         if(fisierCompresat){
-            cout << "FISIERUL A FOST DESCHIS";
+            cout << "FISIERUL A FOST DESCHIS" << '\n';
         }
         else
         {
-            cout << "NU A FOST GASIT FISIERUL";
+            cout << "NU A FOST GASIT FISIERUL" << '\n';
             return 0;
         }
         nod *arboreHuffman;
         deserializeTree(fisierCompresat,arboreHuffman);
-        //cout << "Caractere din fisier" << '\n';
-        parcurgere(arboreHuffman, codificare);
 
+        ///retin codul textului initial
+        string codare = citireCaractereFisierCompresat(fisierCompresat);
+
+        unsigned int index = 0;
+        while(index < codare.size())
+        {
+            parcurgereArbore(arboreHuffman,index,codare);
+        }
+
+        /*cout << "Caractere din fisier" << '\n';
+        parcurgereArbore(arboreHuffman);
+*/
         fclose(fisierCompresat);
     }
 

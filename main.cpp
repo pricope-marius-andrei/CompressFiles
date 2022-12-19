@@ -43,34 +43,28 @@ int main(int argc, char *argv[])
             inserareNoduri(elemente,nodNou);
         }
 
-        parcurgere(elemente,codificare);
-        for(auto it=coduri.begin(); it != coduri.end();++it)
-        {
-            if(it->first == '\n')
-            {
-                cout << "}:" << it->second <<":"<<frecventaCaractere[it->first] << '\n';
-            }
-            else
-            {
-                cout << it->first << ":" << it->second <<":"<<frecventaCaractere[it->first] << '\n';
-            }
-
-        }
-        cout << endl;
+        codareCaractere(elemente,codificare);
         serializeTree(fisierCompresat,elemente);
 
-        ///luam fiecare caracter din textulInitial si le inlocuim cu codul creat pentru el
-        for(unsigned int i = 0; i < textInitial.size(); i++)
-        {
-            scrieBit(fisierCompresat,coduri[textInitial[i]]);
+         if(singurCaracter(frecventaCaractere))
+         {
+             ///daca avem un singur tip de caracter in text, retinem si frecventa acestuia pentru al putea decoda
+            int frecventa = frecventaCaractere[textInitial[0]];
+            fwrite(&frecventa, sizeof(int),1,fisierCompresat);
+         }
+         else {
+            ///luam fiecare caracter din textulInitial si le inlocuim cu codul creat pentru el
+            for(unsigned int i = 0; i < textInitial.size(); i++)
+            {
+                scrieBit(fisierCompresat,coduri[textInitial[i]]);
+            }
         }
 
-        ///scriem ultimul caracter in fisier, in cazul in care nu a fost completat ultimul byte
-        /*if(byteToWrite != 0)
-        {
-            fwrite(&byteToWrite,sizeof(unsigned char),1,fisierCompresat);
-        }*/
 
+        ///scriem ultimul caracter in fisier, in cazul in care nu a fost completat ultimul byte
+        /*while (bitCurent)
+            scrieBit(fisierCompresat,"0");
+*/
         if(fisierCompresat && fisierText)
             cout << "FISIERUL A FOST COMPRESAT CU SUCCES!";
         else
@@ -93,19 +87,27 @@ int main(int argc, char *argv[])
         nod *arboreHuffman;
         deserializeTree(fisierCompresat,arboreHuffman);
 
-        ///retin codul textului initial
-        string codare = citireCaractereFisierCompresat(fisierCompresat);
-        cout << codare << endl;
+        unsigned int index = 0; ///index decodare
 
-        unsigned int index = 0;
-        while(index < codare.size())
+        if(arboreHuffman -> stg == NULL && arboreHuffman -> drt == NULL)
         {
-            parcurgereArbore(arboreHuffman,index,codare);
+            int fcaracter;
+            fread(&fcaracter,sizeof(int),1,fisierCompresat);
+            while(index < fcaracter)
+            {
+                cout << arboreHuffman -> caracter;
+                index++;
+            }
         }
+        else
+        {
+            string codare = citireCaractereFisierCompresat(fisierCompresat);
 
-        /*cout << "Caractere din fisier" << '\n';
-        parcurgereArbore(arboreHuffman);
-*/
+            while(index < codare.size())
+            {
+                parcurgereArbore(arboreHuffman,index,codare);
+            }
+        }
         fclose(fisierCompresat);
     }
 

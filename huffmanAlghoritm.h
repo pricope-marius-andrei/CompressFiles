@@ -33,7 +33,6 @@ string citireCaractereFisierCompresat(FILE *file)
             unsigned int asciiCode = (unsigned int)c;
              if (feof(file))
                 break ;
-            cout << asciiCode << ' ';
 
             for(int i = 0; i < 8; i++)
             {
@@ -61,12 +60,11 @@ string citireCaractereFisierCompresat(FILE *file)
     return codare;
 }
 
-///
 void serializeTree(FILE *file, nod* root)
 {
     if(root == NULL)
     {
-        fwrite("1",sizeof(char),1,file); ///pun 1 pentru test
+        fwrite("\0",sizeof(char),1,file);
         return;
     }
     else
@@ -81,7 +79,7 @@ void deserializeTree(FILE *file, nod*& root)
 {
     char character;
     fread(&character,sizeof(char),1,file);
-    if(character == '1') {
+    if(character == '\0') {
         root = NULL;
         return;
     }
@@ -212,7 +210,7 @@ void inserareNoduri(nod *&elemente, nod* nodNou)
     }
 }
 
-void parcurgere(nod *rad, string cod)
+void codareCaractere(nod *rad, string cod)
 {
     if(rad -> stg == NULL && rad -> drt == NULL)
     {
@@ -224,8 +222,8 @@ void parcurgere(nod *rad, string cod)
     else
     {
         //cout <<rad->caracter << rad->frec << '\n';
-        parcurgere(rad->stg, cod + "0");
-        parcurgere(rad->drt, cod + "1");
+        codareCaractere(rad->stg, cod + "0");
+        codareCaractere(rad->drt, cod + "1");
     }
 }
 
@@ -252,10 +250,16 @@ void parcurgereArbore(nod *rad, unsigned int &index, string cod)
     }
 }
 
-int suma(nod *rad)
+bool singurCaracter(map <char,int> coduri)
 {
-    if (rad -> stg == NULL && rad -> drt == NULL)
-        return 0;
-    else
-        return rad -> frec + suma(rad->stg) + suma(rad->drt);
+    int k = 0;
+    for(auto i = coduri.begin(); i != coduri.end(); i++)
+    {
+        k++;
+        if(k > 1)
+        {
+            return false;
+        }
+    }
+    return true;
 }

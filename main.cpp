@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include <algorithm>
 #include <stdlib.h>
 #include <stdio.h>
@@ -7,8 +6,6 @@
 #include "huffmanAlghoritm.h"
 
 using namespace std;
-
-ofstream out("dateiesire.out");
 
 unsigned int n; ///numarul de caractere
 unsigned long long int lg; /// lungime dupa aplicarea algoritmului
@@ -36,35 +33,38 @@ int main(int argc, char *argv[])
         ///introducerea nodurilor frunza in lista de elemente
         creareListaDeCaractere(elemente,elementeSortate);
 
-        while(elemente -> urm != NULL)
-        {
-            nod *nodNou = creareNod(elemente);
-            elemente = elemente -> urm -> urm;
-            inserareNoduri(elemente,nodNou);
-        }
+        ///cream legaturile intre noduri, pana ramanem cu un singur nod in lista, care reprezinta radacina arborelui
+        creareArbore(elemente);
 
+        ///determinam fiecare cod pentru caracterele din textul nostru
         codareCaractere(elemente,codificare);
+
+        ///retinem nodurile arborelui in fisierul nostru comresat
         serializeTree(fisierCompresat,elemente);
 
          if(singurCaracter(frecventaCaractere))
          {
              ///daca avem un singur tip de caracter in text, retinem si frecventa acestuia pentru al putea decoda
             int frecventa = frecventaCaractere[textInitial[0]];
-            fwrite(&frecventa, sizeof(int),1,fisierCompresat);
+            fwrite(&frecventa,1,1,fisierCompresat);
          }
          else {
+
+            ///scriem lungimea textului initial
+            unsigned int sizeText = textInitial.size();
+            fwrite(&sizeText,sizeof(unsigned int),1,fisierCompresat);
+
             ///luam fiecare caracter din textulInitial si le inlocuim cu codul creat pentru el
             for(unsigned int i = 0; i < textInitial.size(); i++)
             {
-                scrieBit(fisierCompresat,coduri[textInitial[i]]);
+                scrieByte(fisierCompresat,coduri[textInitial[i]]);
             }
         }
 
-
         ///scriem ultimul caracter in fisier, in cazul in care nu a fost completat ultimul byte
-        /*while (bitCurent)
-            scrieBit(fisierCompresat,"0");
-*/
+        while (bitCurent)
+            scrieByte(fisierCompresat,"0");
+
         if(fisierCompresat && fisierText)
             cout << "FISIERUL A FOST COMPRESAT CU SUCCES!";
         else
@@ -84,15 +84,19 @@ int main(int argc, char *argv[])
             cout << "NU A FOST GASIT FISIERUL" << '\n';
             return 0;
         }
+
+        /// in arboreHuffman vom citii arborele pe care l-am scris la inceputul fisierului compresat
         nod *arboreHuffman;
         deserializeTree(fisierCompresat,arboreHuffman);
 
         unsigned int index = 0; ///index decodare
 
+        ///verificam daca avem un singur tip de caractere, in cazul acesta avem nevoie doar de frecventa acestuia
+        ///fara codificare
         if(arboreHuffman -> stg == NULL && arboreHuffman -> drt == NULL)
         {
             int fcaracter;
-            fread(&fcaracter,sizeof(int),1,fisierCompresat);
+            fread(&fcaracter,1,1,fisierCompresat);
             while(index < fcaracter)
             {
                 cout << arboreHuffman -> caracter;
@@ -101,11 +105,22 @@ int main(int argc, char *argv[])
         }
         else
         {
-            string codare = citireCaractereFisierCompresat(fisierCompresat);
+            ///citesc lungimea textului
+            int lungimeInitialText;
+            fread(&lungimeInitialText,sizeof(unsigned int),1,fisierCompresat);
 
+            ///pentru cazul in care ultimul byte nu este complet, contorizam fiecare caracter citit
+            ///pentru a evita scrierea unor caractere in plus
+            int numarCurentCaractere = 0;
+
+            string codare = citireCaractereFisierCompresat(fisierCompresat);
             while(index < codare.size())
             {
+                if(numarCurentCaractere == lungimeInitialText - 1)
+                    break;
+                numarCurentCaractere++;
                 parcurgereArbore(arboreHuffman,index,codare);
+
             }
         }
         fclose(fisierCompresat);

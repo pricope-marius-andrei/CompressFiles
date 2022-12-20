@@ -90,7 +90,7 @@ void deserializeTree(FILE *file, nod*& root)
     deserializeTree(file,root->drt);
 }
 
-void scrieBit(FILE *file, string cod)
+void scrieByte(FILE *file, string cod)
 {
     for(unsigned int i = 0 ; i < cod.size(); i++) {
         unsigned char bit = cod[i];
@@ -224,6 +224,15 @@ void codareCaractere(nod *rad, string cod)
         //cout <<rad->caracter << rad->frec << '\n';
         codareCaractere(rad->stg, cod + "0");
         codareCaractere(rad->drt, cod + "1");
+    }
+}
+
+void creareArbore(nod *&elemente)
+{
+    while(elemente -> urm != NULL) {
+        nod *nodNou = creareNod(elemente);
+        elemente = elemente -> urm -> urm;
+        inserareNoduri(elemente,nodNou);
     }
 }
 

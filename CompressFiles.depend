@@ -22,3 +22,21 @@
 	<cmath>
 	<map>
 
+1671554683 source:c:\users\andrei\desktop\projectt\main.cpp
+	<iostream>
+	<algorithm>
+	<stdlib.h>
+	<stdio.h>
+	"huffmanAlghoritm.h"
+	"gestionareFisiere.h"
+
+1671552179 c:\users\andrei\desktop\projectt\huffmanalghoritm.h
+	<iostream>
+	<unordered_map>
+	<vector>
+	<cmath>
+	<map>
+
+1671554789 c:\users\andrei\desktop\projectt\gestionarefisiere.h
+	<bits/stdc++.h>
+

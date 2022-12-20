@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <stdio.h>
-#include <bitset>
 #include "huffmanAlghoritm.h"
+#include "gestionareFisiere.h"
 
 using namespace std;
 
@@ -18,64 +18,67 @@ int main(int argc, char *argv[])
     cout << "Compress(1)/Decompress(2):";
     cin >> compresie;
     if(compresie == 1) {
-        FILE * fisierText = fopen(argv[1], "rb");
-        FILE * fisierCompresat = fopen(argv[2], "wb");
-        ///lista in care vom retine nodurile frunza de la inceput
-        nod* elemente = new nod;
-        elemente = NULL;
+        for (int i=1; i<argc-1; i++)
+        {
+            FILE * fisierText = fopen(argv[i], "rb");
+            FILE * fisierCompresat = fopen(argv[argc-1], "wb");
+            ///lista in care vom retine nodurile frunza de la inceput
+            nod* elemente = new nod;
+            elemente = NULL;
 
-        ///determinarea frecventei din fisier a caracterelor
-        determinareFrecventa(fisierText);
+            ///determinarea frecventei din fisier a caracterelor
+            determinareFrecventa(fisierText);
 
-        ///sortare dupa frecventa caracterelor
-        vector<pair<char,int>> elementeSortate = sortareLista(frecventaCaractere);
+            ///sortare dupa frecventa caracterelor
+            vector<pair<char,int>> elementeSortate = sortareLista(frecventaCaractere);
 
-        ///introducerea nodurilor frunza in lista de elemente
-        creareListaDeCaractere(elemente,elementeSortate);
+            ///introducerea nodurilor frunza in lista de elemente
+            creareListaDeCaractere(elemente,elementeSortate);
 
-        ///cream legaturile intre noduri, pana ramanem cu un singur nod in lista, care reprezinta radacina arborelui
-        creareArbore(elemente);
+            ///cream legaturile intre noduri, pana ramanem cu un singur nod in lista, care reprezinta radacina arborelui
+            creareArbore(elemente);
 
-        ///determinam fiecare cod pentru caracterele din textul nostru
-        codareCaractere(elemente,codificare);
+            ///determinam fiecare cod pentru caracterele din textul nostru
+            codareCaractere(elemente,codificare);
 
-        ///retinem nodurile arborelui in fisierul nostru comresat
-        serializeTree(fisierCompresat,elemente);
+            ///retinem nodurile arborelui in fisierul nostru comresat
+            serializeTree(fisierCompresat,elemente);
 
-         if(singurCaracter(frecventaCaractere))
-         {
-             ///daca avem un singur tip de caracter in text, retinem si frecventa acestuia pentru al putea decoda
-            int frecventa = frecventaCaractere[textInitial[0]];
-            fwrite(&frecventa,1,1,fisierCompresat);
-         }
-         else {
+             if(singurCaracter(frecventaCaractere))
+             {
+                 ///daca avem un singur tip de caracter in text, retinem si frecventa acestuia pentru al putea decoda
+                int frecventa = frecventaCaractere[textInitial[0]];
+                fwrite(&frecventa,1,1,fisierCompresat);
+             }
+             else {
 
-            ///scriem lungimea textului initial
-            unsigned int sizeText = textInitial.size();
-            fwrite(&sizeText,sizeof(unsigned int),1,fisierCompresat);
+                ///scriem lungimea textului initial
+                unsigned int sizeText = textInitial.size();
+                fwrite(&sizeText,sizeof(unsigned int),1,fisierCompresat);
 
-            ///luam fiecare caracter din textulInitial si le inlocuim cu codul creat pentru el
-            for(unsigned int i = 0; i < textInitial.size(); i++)
-            {
-                scrieByte(fisierCompresat,coduri[textInitial[i]]);
+                ///luam fiecare caracter din textulInitial si le inlocuim cu codul creat pentru el
+                for(unsigned int i = 0; i < textInitial.size(); i++)
+                {
+                    scrieByte(fisierCompresat,coduri[textInitial[i]]);
+                }
             }
+
+            ///scriem ultimul caracter in fisier, in cazul in care nu a fost completat ultimul byte
+            while (bitCurent)
+                scrieByte(fisierCompresat,"0");
+
+            if(fisierCompresat && fisierText)
+                cout << "FISIERUL " << extDenumirefisier(argv[i]) <<" A FOST COMPRESAT CU SUCCES!" << '\n';
+            else
+                cout << "FISIERUL " << extDenumirefisier(argv[i]) <<" NU A FOST COMPRESAT CU SUCCES!" << '\n';
+
+            fclose(fisierText);
+            fclose(fisierCompresat);
         }
-
-        ///scriem ultimul caracter in fisier, in cazul in care nu a fost completat ultimul byte
-        while (bitCurent)
-            scrieByte(fisierCompresat,"0");
-
-        if(fisierCompresat && fisierText)
-            cout << "FISIERUL A FOST COMPRESAT CU SUCCES!";
-        else
-            cout << "FISIERUL NU A PUTUT FI GASIT!";
-
-        fclose(fisierText);
-        fclose(fisierCompresat);
     }
     else if(compresie == 2)
     {
-        FILE * fisierCompresat = fopen(argv[3], "rb");
+        FILE * fisierCompresat = fopen(argv[1], "rb");
         if(fisierCompresat){
             cout << "FISIERUL A FOST DESCHIS" << '\n';
         }

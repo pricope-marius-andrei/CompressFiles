@@ -83,7 +83,6 @@ void deserializeTree(FILE *file, nod*& root)
         root = NULL;
         return;
     }
-
     root = new nod;
     root ->caracter = character;
     deserializeTree(file,root->stg);

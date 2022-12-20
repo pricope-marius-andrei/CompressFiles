@@ -7,9 +7,6 @@
 
 using namespace std;
 
-unsigned int n; ///numarul de caractere
-unsigned long long int lg; /// lungime dupa aplicarea algoritmului
-
 string codificare;
 
 int main(int argc, char *argv[])
@@ -41,6 +38,9 @@ int main(int argc, char *argv[])
             ///determinam fiecare cod pentru caracterele din textul nostru
             codareCaractere(elemente,codificare);
 
+            string numeFisier = extDenumirefisier(argv[i]);
+            fwrite(&numeFisier,sizeof(string),1,fisierCompresat);
+
             ///retinem nodurile arborelui in fisierul nostru comresat
             serializeTree(fisierCompresat,elemente);
 
@@ -68,9 +68,9 @@ int main(int argc, char *argv[])
                 scrieByte(fisierCompresat,"0");
 
             if(fisierCompresat && fisierText)
-                cout << "FISIERUL " << extDenumirefisier(argv[i]) <<" A FOST COMPRESAT CU SUCCES!" << '\n';
+                cout << "FISIERUL " << numeFisier <<" A FOST COMPRESAT CU SUCCES!" << '\n';
             else
-                cout << "FISIERUL " << extDenumirefisier(argv[i]) <<" NU A FOST COMPRESAT CU SUCCES!" << '\n';
+                cout << "FISIERUL " << numeFisier <<" NU A FOST COMPRESAT CU SUCCES!" << '\n';
 
             fclose(fisierText);
             fclose(fisierCompresat);
@@ -79,51 +79,59 @@ int main(int argc, char *argv[])
     else if(compresie == 2)
     {
         FILE * fisierCompresat = fopen(argv[1], "rb");
-        if(fisierCompresat){
-            cout << "FISIERUL A FOST DESCHIS" << '\n';
-        }
-        else
+
+        for (int i=1; i<argc-1; i++)
         {
-            cout << "NU A FOST GASIT FISIERUL" << '\n';
-            return 0;
-        }
+            string numeFisier;
+            fread(&numeFisier,sizeof(string),1,fisierCompresat);
 
-        /// in arboreHuffman vom citii arborele pe care l-am scris la inceputul fisierului compresat
-        nod *arboreHuffman;
-        deserializeTree(fisierCompresat,arboreHuffman);
-
-        unsigned int index = 0; ///index decodare
-
-        ///verificam daca avem un singur tip de caractere, in cazul acesta avem nevoie doar de frecventa acestuia
-        ///fara codificare
-        if(arboreHuffman -> stg == NULL && arboreHuffman -> drt == NULL)
-        {
-            int fcaracter;
-            fread(&fcaracter,1,1,fisierCompresat);
-            while(index < fcaracter)
-            {
-                cout << arboreHuffman -> caracter;
-                index++;
+            FILE * locatieDecompresare = fopen(argv[2], "wb");
+            if(fisierCompresat){
+                cout << "FISIERUL A FOST DESCHIS" << '\n';
             }
-        }
-        else
-        {
-            ///citesc lungimea textului
-            int lungimeInitialText;
-            fread(&lungimeInitialText,sizeof(unsigned int),1,fisierCompresat);
-
-            ///pentru cazul in care ultimul byte nu este complet, contorizam fiecare caracter citit
-            ///pentru a evita scrierea unor caractere in plus
-            int numarCurentCaractere = 0;
-
-            string codare = citireCaractereFisierCompresat(fisierCompresat);
-            while(index < codare.size())
+            else
             {
-                if(numarCurentCaractere == lungimeInitialText - 1)
-                    break;
-                numarCurentCaractere++;
-                parcurgereArbore(arboreHuffman,index,codare);
+                cout << "NU A FOST GASIT FISIERUL" << '\n';
+                return 0;
+            }
 
+            /// in arboreHuffman vom citii arborele pe care l-am scris la inceputul fisierului compresat
+            nod *arboreHuffman;
+            deserializeTree(fisierCompresat,arboreHuffman);
+
+            unsigned int index = 0; ///index decodare
+
+            ///verificam daca avem un singur tip de caractere, in cazul acesta avem nevoie doar de frecventa acestuia
+            ///fara codificare
+            if(arboreHuffman -> stg == NULL && arboreHuffman -> drt == NULL)
+            {
+                int fcaracter;
+                fread(&fcaracter,1,1,fisierCompresat);
+                while(index < fcaracter)
+                {
+                    cout << arboreHuffman -> caracter;
+                    index++;
+                }
+            }
+            else
+            {
+                ///citesc lungimea textului
+                int lungimeInitialText;
+                fread(&lungimeInitialText,sizeof(unsigned int),1,fisierCompresat);
+
+                ///pentru cazul in care ultimul byte nu este complet, contorizam fiecare caracter citit
+                ///pentru a evita scrierea unor caractere in plus
+                int numarCurentCaractere = 0;
+
+                string codare = citireCaractereFisierCompresat(fisierCompresat);
+                while(index < codare.size())
+                {
+                    if(numarCurentCaractere == lungimeInitialText - 1)
+                        break;
+                    numarCurentCaractere++;
+                    parcurgereArbore(arboreHuffman,index,codare);
+
+                }
             }
         }
         fclose(fisierCompresat);

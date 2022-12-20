@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <cstring>
 
 string extDenumirefisier(char a[])
 {
@@ -12,5 +13,13 @@ string extDenumirefisier(char a[])
             reverse(demunireFisier.begin(),demunireFisier.end());
             return demunireFisier;
         }
+    }
+}
+
+void determinareDestinatieFisier(char a[], string s)
+{
+    for (int i=0; i<s.size(); i++)
+    {
+        a[strlen(a)]=s[i];
     }
 }

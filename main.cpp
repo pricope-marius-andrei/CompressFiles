@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     }
     else if(compresie == 2)
     {
-        FILE * fisierCompresat = fopen(argv[3], "rb");
+        FILE * fisierCompresat = fopen(argv[1], "rb");
         if(fisierCompresat){
             cout << "FISIERUL A FOST DESCHIS" << '\n';
         }

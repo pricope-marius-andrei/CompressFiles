@@ -49,6 +49,7 @@ int main(int argc, char *argv[])
                  ///daca avem un singur tip de caracter in text, retinem si frecventa acestuia pentru al putea decoda
                 int frecventa = frecventaCaractere[textInitial[0]];
                 fwrite(&frecventa,1,1,fisierCompresat);
+                fwrite("\0",1,1,fisierCompresat);
              }
              else {
 
@@ -61,11 +62,13 @@ int main(int argc, char *argv[])
                 {
                     scrieByte(fisierCompresat,coduri[textInitial[i]]);
                 }
-            }
 
-            ///scriem ultimul caracter in fisier, in cazul in care nu a fost completat ultimul byte
-            while (bitCurent)
-                scrieByte(fisierCompresat,"0");
+                ///scriem ultimul caracter in fisier, in cazul in care nu a fost completat ultimul byte
+                while (bitCurent)
+                    scrieByte(fisierCompresat,"0");
+                fwrite("\0",1,1,fisierCompresat);
+
+            }
 
             if(fisierCompresat && fisierText)
                 cout << "FISIERUL " << numeFisier <<" A FOST COMPRESAT CU SUCCES!" << '\n';
@@ -80,12 +83,10 @@ int main(int argc, char *argv[])
     {
         FILE * fisierCompresat = fopen(argv[1], "rb");
 
-        for (int i=1; i<argc-1; i++)
-        {
             string numeFisier;
             fread(&numeFisier,sizeof(string),1,fisierCompresat);
 
-            FILE * locatieDecompresare = fopen(argv[2], "wb");
+           /// FILE * locatieDecompresare = fopen(argv[2], "wb");
             if(fisierCompresat){
                 cout << "FISIERUL A FOST DESCHIS" << '\n';
             }
@@ -118,7 +119,7 @@ int main(int argc, char *argv[])
                 ///citesc lungimea textului
                 int lungimeInitialText;
                 fread(&lungimeInitialText,sizeof(unsigned int),1,fisierCompresat);
-
+                cout<<lungimeInitialText<<" ";
                 ///pentru cazul in care ultimul byte nu este complet, contorizam fiecare caracter citit
                 ///pentru a evita scrierea unor caractere in plus
                 int numarCurentCaractere = 0;
@@ -133,7 +134,6 @@ int main(int argc, char *argv[])
 
                 }
             }
-        }
         fclose(fisierCompresat);
     }
 

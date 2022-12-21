@@ -22,7 +22,7 @@
 	<cmath>
 	<map>
 
-1671557579 source:c:\users\andrei\desktop\projectt\main.cpp
+1671642751 source:c:\users\andrei\desktop\projectt\main.cpp
 	<iostream>
 	<algorithm>
 	<stdlib.h>
@@ -30,14 +30,16 @@
 	"huffmanAlghoritm.h"
 	"gestionareFisiere.h"
 
-1671557579 c:\users\andrei\desktop\projectt\huffmanalghoritm.h
+1671642537 c:\users\andrei\desktop\projectt\huffmanalghoritm.h
 	<iostream>
-	<unordered_map>
 	<vector>
 	<cmath>
-	<map>
+	"structures.h"
 
-1671558327 c:\users\andrei\desktop\projectt\gestionarefisiere.h
+1671643596 c:\users\andrei\desktop\projectt\gestionarefisiere.h
 	<bits/stdc++.h>
 	<cstring>
+
+1671642010 c:\users\andrei\desktop\projectt\structures.h
+	<map>
 

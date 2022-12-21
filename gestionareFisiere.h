@@ -18,8 +18,11 @@ string extDenumirefisier(char a[])
 
 void determinareDestinatieFisier(char a[], string s)
 {
+    int lung = strlen(a);
     for (int i=0; i<s.size(); i++)
     {
-        a[strlen(a)]=s[i];
+        a[lung] = s[i];
+        lung++;
     }
+    a[lung] = '\0';
 }

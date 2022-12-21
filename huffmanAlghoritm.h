@@ -1,26 +1,9 @@
 #include <iostream>
-#include <unordered_map>
 #include <vector>
 #include <cmath>
-#include <map>
+#include "structures.h"
 
 using namespace std;
-
-struct nod{
-    char caracter;
-    int frec;
-    nod *urm;
-    nod *stg,*drt;
-};
-
-///un hashmap pentru a retine codurile fiecarui caracter
-map <char,string> coduri;
-map <char,int> frecventaCaractere;
-string textInitial;
-
-///varibile folosite pentru scrierea, bit cu bit, in fisier
-int bitCurent = 0;
-unsigned char byteToWrite;
 
 string citireCaractereFisierCompresat(FILE *file)
 {
@@ -31,7 +14,7 @@ string citireCaractereFisierCompresat(FILE *file)
             // Citim caracter cu caracter din fisier
             unsigned char c = fgetc(file);
             unsigned int asciiCode = (unsigned int)c;
-             if (feof(file))
+            if (c=='\0')
                 break ;
 
             for(int i = 0; i < 8; i++)

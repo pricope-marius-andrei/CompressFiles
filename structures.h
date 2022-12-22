@@ -10,7 +10,7 @@ struct nod{
 };
 
 struct fisier{
-    string nume;
+    char nume[10];
    /// string dataCreareFisier;
 };
 

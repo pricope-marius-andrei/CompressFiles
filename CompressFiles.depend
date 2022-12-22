@@ -7,20 +7,20 @@
 
 1669889953 c:\users\andrei\desktop\proiect principal ip\huffmanalghoritm.h
 
-1671532479 source:d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\main.cpp
+1671728007 source:d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\main.cpp
 	<iostream>
 	<algorithm>
 	<stdlib.h>
 	<stdio.h>
-	<bitset>
+	<cstring>
 	"huffmanAlghoritm.h"
+	"gestionareFisiere.h"
 
-1671530937 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\huffmanalghoritm.h
+1671645886 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\huffmanalghoritm.h
 	<iostream>
-	<unordered_map>
 	<vector>
 	<cmath>
-	<map>
+	"structures.h"
 
 1671642751 source:c:\users\andrei\desktop\projectt\main.cpp
 	<iostream>
@@ -42,4 +42,11 @@
 
 1671642010 c:\users\andrei\desktop\projectt\structures.h
 	<map>
+
+1671697670 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\structures.h
+	<map>
+
+1671700603 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\gestionarefisiere.h
+	<bits/stdc++.h>
+	<cstring>
 

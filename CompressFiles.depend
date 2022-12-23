@@ -7,7 +7,26 @@
 
 1669889953 c:\users\andrei\desktop\proiect principal ip\huffmanalghoritm.h
 
-1671728007 source:d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\main.cpp
+1671700603 D
+
+1671817664 source:d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\main.cpp
+	<iostream>
+	<algorithm>
+	<stdlib.h>
+	<stdio.h>
+	<cstring>
+	<sys/stat.h>
+	<ctime>
+	"huffmanAlghoritm.h"
+	"gestionareFisiere.h"
+
+1671779827 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\huffmanalghoritm.h
+	<iostream>
+	<vector>
+	<cmath>
+	"structures.h"
+
+1671732897 source:c:\users\andrei\desktop\projectt\main.cpp
 	<iostream>
 	<algorithm>
 	<stdlib.h>
@@ -16,37 +35,33 @@
 	"huffmanAlghoritm.h"
 	"gestionareFisiere.h"
 
-1671645886 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\huffmanalghoritm.h
-	<iostream>
-	<vector>
-	<cmath>
-	"structures.h"
-
-1671642751 source:c:\users\andrei\desktop\projectt\main.cpp
+1671700603 cad5856815bf9f1f43c7ac7c8268f8d3fe5de
 	<iostream>
 	<algorithm>
 	<stdlib.h>
 	<stdio.h>
+	<cstring>
 	"huffmanAlghoritm.h"
 	"gestionareFisiere.h"
 
-1671642537 c:\users\andrei\desktop\projectt\huffmanalghoritm.h
+1671729267 c:\users\andrei\desktop\projectt\huffmanalghoritm.h
 	<iostream>
 	<vector>
 	<cmath>
 	"structures.h"
 
-1671643596 c:\users\andrei\desktop\projectt\gestionarefisiere.h
-	<bits/stdc++.h>
+1671733018 c:\users\andrei\desktop\projectt\gestionarefisiere.h
 	<cstring>
 
 1671642010 c:\users\andrei\desktop\projectt\structures.h
 	<map>
-
-1671697670 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\structures.h
 	<map>
 
-1671700603 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\gestionarefisiere.h
-	<bits/stdc++.h>
+1671817560 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\structures.h
+	<map>
+
+1671817923 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\gestionarefisiere.h
 	<cstring>
+
+1671700603 
 

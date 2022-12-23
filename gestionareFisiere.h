@@ -1,4 +1,3 @@
-#include <bits/stdc++.h>
 #include <cstring>
 
 void extDenumirefisier(char path[], char name[])
@@ -20,5 +19,12 @@ void determinareDestinatieFisier(char a[], string s)
 
 void golireVariabile()
 {
+    /// golire frecventa
+    frecventaCaractere.clear();
 
+    ///stergere coduri
+    coduri.clear();
+
+    /// golire testinitial
+    textInitial.clear();
 }

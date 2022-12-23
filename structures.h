@@ -11,6 +11,7 @@ struct nod{
 
 struct fisier{
     char nume[10];
+    time_t dataCreareFisier;
    /// string dataCreareFisier;
 };
 

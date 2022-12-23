@@ -61,7 +61,6 @@ int main(int argc, char *argv[])
             ///scriem in fisier structura
             fwrite(&fisierCurent,sizeof(fisierCurent),1,fisierCompresat);
 
-
             ///retinem nodurile arborelui in fisierul nostru comresat
             serializeTree(fisierCompresat,elemente);
 
@@ -97,6 +96,8 @@ int main(int argc, char *argv[])
                 cout << "FISIERUL " << fisierCurent.nume <<" NU A FOST COMPRESAT CU SUCCES!" << '\n';
 
             ///dupa ce am terminat cu un fisier trebuie sa stergem urmele de la fisierul precedent
+            golireVariabile();
+            delete elemente;
 
             fclose(fisierText);
         }
@@ -105,8 +106,7 @@ int main(int argc, char *argv[])
     else if(compresie == 2)
     {
         FILE * fisierCompresat = fopen(argv[1], "rb");
-
-        for(int i = 0; i < 2; i++)
+        for(int i = 0; i < 3; i++)
         {
             /// FILE * locatieDecompresare = fopen(argv[2], "wb");
             if(fisierCompresat)
@@ -168,6 +168,8 @@ int main(int argc, char *argv[])
                     parcurgereArbore(arboreHuffman,index,codare);
 
                 }
+                //cout << index;
+                //cout << numarCurentCaractere << '\n';
             }
             cout << '\n';
             cout << '\n';

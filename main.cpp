@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <cstring>
+#include <sys/stat.h>
+#include <ctime>
 #include "huffmanAlghoritm.h"
 #include "gestionareFisiere.h"
 
@@ -41,10 +43,24 @@ int main(int argc, char *argv[])
             ///determinam fiecare cod pentru caracterele din textul nostru
             codareCaractere(elemente,codificare);
 
-            ///scriem numele fisierului
+            ///informatii despre fisier
+            struct stat fileInfo;
+
+            ///asignare path fisier
+            stat(argv[i],&fileInfo);
+
+            ////////////////////
             fisier fisierCurent;
+
+            ///atribuim numele
             extDenumirefisier(argv[i],fisierCurent.nume);
+
+            ///atribuim data in care a fost creat
+            fisierCurent.dataCreareFisier = fileInfo.st_ctime;
+
+            ///scriem in fisier structura
             fwrite(&fisierCurent,sizeof(fisierCurent),1,fisierCompresat);
+
 
             ///retinem nodurile arborelui in fisierul nostru comresat
             serializeTree(fisierCompresat,elemente);
@@ -73,7 +89,6 @@ int main(int argc, char *argv[])
                 while (bitCurent)
                     scrieByte(fisierCompresat,"0");
                 fwrite("\0",1,1,fisierCompresat);
-
             }
 
             if(fisierCompresat && fisierText)
@@ -91,7 +106,7 @@ int main(int argc, char *argv[])
     {
         FILE * fisierCompresat = fopen(argv[1], "rb");
 
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 2; i++)
         {
             /// FILE * locatieDecompresare = fopen(argv[2], "wb");
             if(fisierCompresat)
@@ -111,6 +126,8 @@ int main(int argc, char *argv[])
 
             cout << "Nume fisier:";
             cout << fisierCurent.nume << endl;
+            cout << "Data creare fisier:";
+            cout << ctime(&fisierCurent.dataCreareFisier) << endl;
 
 
             /// in arboreHuffman vom citii arborele pe care l-am scris la inceputul fisierului compresat
@@ -145,10 +162,8 @@ int main(int argc, char *argv[])
                 int numarCurentCaractere = 0;
 
                 string codare = citireCaractereFisierCompresat(fisierCompresat);
-                while(index < codare.size())
+                while(index < codare.size() && numarCurentCaractere != lungimeInitialText - 1)
                 {
-                    if(numarCurentCaractere == lungimeInitialText - 1)
-                        break;
                     numarCurentCaractere++;
                     parcurgereArbore(arboreHuffman,index,codare);
 

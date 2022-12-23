@@ -224,6 +224,7 @@ void parcurgereArbore(nod *rad, unsigned int &index, string cod)
     if(rad -> stg == NULL && rad -> drt == NULL)
     {
         cout << rad -> caracter;
+        //cout << "index:" << index;
         return;
     }
     else

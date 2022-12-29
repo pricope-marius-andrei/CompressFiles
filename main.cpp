@@ -21,6 +21,10 @@ int main(int argc, char *argv[])
     {
         FILE * fisierCompresat = fopen(argv[argc-1], "wb");
 
+        ///scriu numarul de fisiere pe care urm sa le compresez
+        int numarFisiere = argc - 1;
+        fwrite(&numarFisiere,sizeof(int),1,fisierCompresat);
+
         for (int i=1; i<argc-1; i++)
         {
             FILE * fisierText = fopen(argv[i], "rb");
@@ -68,8 +72,8 @@ int main(int argc, char *argv[])
             {
                 ///daca avem un singur tip de caracter in text, retinem si frecventa acestuia pentru al putea decoda
                 int frecventa = frecventaCaractere[textInitial[0]];
-                fwrite(&frecventa,1,1,fisierCompresat);
-                fwrite("\0",1,1,fisierCompresat);
+                fwrite(&frecventa,sizeof(int),1,fisierCompresat);
+                //fwrite("\0",1,1,fisierCompresat);
             }
             else
             {
@@ -106,7 +110,12 @@ int main(int argc, char *argv[])
     else if(compresie == 2)
     {
         FILE * fisierCompresat = fopen(argv[1], "rb");
-        for(int i = 0; i < 3; i++)
+
+        ///citesc numarul de fisiere compresate
+        int numarFisiere;
+        fread(&numarFisiere,sizeof(int),1,fisierCompresat);
+
+        for(int i = 1; i < numarFisiere; i++)
         {
             /// FILE * locatieDecompresare = fopen(argv[2], "wb");
             if(fisierCompresat)
@@ -136,15 +145,24 @@ int main(int argc, char *argv[])
 
             unsigned int index = 0; ///index decodare
 
+            ///concatenare
+            char copiePath[100];
+            strcpy(copiePath,argv[2]);
+            determinareDestinatieFisier(copiePath,fisierCurent.nume);
+
+            FILE *fisierDecompresat = fopen(copiePath,"w");
+
+
             ///verificam daca avem un singur tip de caractere, in cazul acesta avem nevoie doar de frecventa acestuia
             ///fara codificare
             if(arboreHuffman -> stg == NULL && arboreHuffman -> drt == NULL)
             {
                 unsigned int frecCaracter;
-                fread(&frecCaracter,1,1,fisierCompresat);
+                fread(&frecCaracter,sizeof(int),1,fisierCompresat);
                 while(index < frecCaracter)
                 {
-                    cout << arboreHuffman -> caracter;
+                    fwrite(&arboreHuffman->caracter, sizeof(char),1,fisierDecompresat);
+                    //cout << arboreHuffman -> caracter;
                     index++;
                 }
             }
@@ -154,9 +172,6 @@ int main(int argc, char *argv[])
                 int lungimeInitialText;
                 fread(&lungimeInitialText,sizeof(unsigned int),1,fisierCompresat);
 
-                cout << "Lungime text initial: ";
-                cout<<lungimeInitialText<<endl;
-
                 ///pentru cazul in care ultimul byte nu este complet, contorizam fiecare caracter citit
                 ///pentru a evita scrierea unor caractere in plus
                 int numarCurentCaractere = 0;
@@ -165,7 +180,7 @@ int main(int argc, char *argv[])
                 while(index < codare.size() && numarCurentCaractere != lungimeInitialText - 1)
                 {
                     numarCurentCaractere++;
-                    parcurgereArbore(arboreHuffman,index,codare);
+                    parcurgereArbore(arboreHuffman,index,codare,fisierDecompresat);
 
                 }
                 //cout << index;

@@ -219,11 +219,12 @@ void creareArbore(nod *&elemente)
 }
 
 
-void parcurgereArbore(nod *rad, unsigned int &index, string cod)
+void parcurgereArbore(nod *rad, unsigned int &index, string cod, FILE *fisierDecompresat)
 {
     if(rad -> stg == NULL && rad -> drt == NULL)
     {
-        cout << rad -> caracter;
+        fwrite(&rad -> caracter, sizeof(char),1,fisierDecompresat);
+        //cout << rad -> caracter;
         //cout << "index:" << index;
         return;
     }
@@ -232,12 +233,12 @@ void parcurgereArbore(nod *rad, unsigned int &index, string cod)
        if(cod[index] == '0')
        {
            index++;
-           parcurgereArbore(rad->stg,index,cod);
+           parcurgereArbore(rad->stg,index,cod,fisierDecompresat);
        }
        else
        {
            index++;
-           parcurgereArbore(rad->drt,index,cod);
+           parcurgereArbore(rad->drt,index,cod,fisierDecompresat);
        }
     }
 }

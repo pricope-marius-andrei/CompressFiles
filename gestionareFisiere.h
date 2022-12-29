@@ -6,15 +6,9 @@ void extDenumirefisier(char path[], char name[])
     strcpy(name,n + 1);
 }
 
-void determinareDestinatieFisier(char a[], string s)
+void determinareDestinatieFisier(char path[], char name[])
 {
-    int lung = strlen(a);
-    for (unsigned int i=0; i<s.size(); i++)
-    {
-        a[lung] = s[i];
-        lung++;
-    }
-    a[lung] = '\0';
+    strcat(path,name);
 }
 
 void golireVariabile()

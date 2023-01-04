@@ -73,14 +73,27 @@ int main(int argc, char *argv[])
                 ///daca avem un singur tip de caracter in text, retinem si frecventa acestuia pentru al putea decoda
                 int frecventa = frecventaCaractere[textInitial[0]];
                 fwrite(&frecventa,sizeof(int),1,fisierCompresat);
-                //fwrite("\0",1,1,fisierCompresat);
             }
             else
             {
-
                 ///scriem lungimea textului initial
                 unsigned int sizeText = textInitial.size();
                 fwrite(&sizeText,sizeof(unsigned int),1,fisierCompresat);
+
+                ///numar caractere scrise in fisier
+                unsigned int numBinCaracters = 0;
+
+                ///luam fiecare caracter din textulInitial si le inlocuim cu codul creat pentru el
+                for(unsigned int i = 0; i < textInitial.size(); i++)
+                {
+                    numCaracterFisier(coduri[textInitial[i]],numBinCaracters);
+                }
+
+                ///scriem ultimul caracter in fisier, in cazul in care nu a fost completat ultimul byte
+                while (bytCurent)
+                    numCaracterFisier("0",numBinCaracters);
+
+                fwrite(&numBinCaracters,sizeof(unsigned int),1,fisierCompresat);
 
                 ///luam fiecare caracter din textulInitial si le inlocuim cu codul creat pentru el
                 for(unsigned int i = 0; i < textInitial.size(); i++)
@@ -91,7 +104,6 @@ int main(int argc, char *argv[])
                 ///scriem ultimul caracter in fisier, in cazul in care nu a fost completat ultimul byte
                 while (bitCurent)
                     scrieByte(fisierCompresat,"0");
-                fwrite("\0",1,1,fisierCompresat);
             }
 
             if(fisierCompresat && fisierText)
@@ -140,7 +152,7 @@ int main(int argc, char *argv[])
 
 
             /// in arboreHuffman vom citii arborele pe care l-am scris la inceputul fisierului compresat
-            nod *arboreHuffman;
+            nod *arboreHuffman = NULL;
             deserializeTree(fisierCompresat,arboreHuffman);
 
             unsigned int index = 0; ///index decodare
@@ -162,7 +174,6 @@ int main(int argc, char *argv[])
                 while(index < frecCaracter)
                 {
                     fwrite(&arboreHuffman->caracter, sizeof(char),1,fisierDecompresat);
-                    //cout << arboreHuffman -> caracter;
                     index++;
                 }
             }
@@ -172,21 +183,26 @@ int main(int argc, char *argv[])
                 int lungimeInitialText;
                 fread(&lungimeInitialText,sizeof(unsigned int),1,fisierCompresat);
 
+                ///citesc numarul de caractere care trebuiesc citite din fisier
+                int numBinCaracters;
+                fread(&numBinCaracters,sizeof(unsigned int),1,fisierCompresat);
+
                 ///pentru cazul in care ultimul byte nu este complet, contorizam fiecare caracter citit
                 ///pentru a evita scrierea unor caractere in plus
                 int numarCurentCaractere = 0;
 
-                string codare = citireCaractereFisierCompresat(fisierCompresat);
+                cout << lungimeInitialText << endl;
+
+                string codare = citireCaractereFisierCompresat(fisierCompresat,numBinCaracters);
                 while(index < codare.size() && numarCurentCaractere != lungimeInitialText - 1)
                 {
                     numarCurentCaractere++;
                     parcurgereArbore(arboreHuffman,index,codare,fisierDecompresat);
 
                 }
-                //cout << index;
-                //cout << numarCurentCaractere << '\n';
+
+                codare.clear();
             }
-            cout << '\n';
             cout << '\n';
         }
 

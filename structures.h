@@ -23,3 +23,6 @@ string textInitial;
 ///varibile folosite pentru scrierea, bit cu bit, in fisier
 int bitCurent = 0;
 unsigned char byteToWrite;
+
+///variabile folosite pentru numararea bytes-ilor
+int bytCurent = 0;

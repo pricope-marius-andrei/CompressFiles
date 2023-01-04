@@ -5,17 +5,15 @@
 
 using namespace std;
 
-string citireCaractereFisierCompresat(FILE *file)
+string citireCaractereFisierCompresat(FILE *file, int lungime)
 {
     string codare;
     if(file != NULL) {
-        while(true)
+        for(int i = 0 ; i < lungime; i++)
         {
             // Citim caracter cu caracter din fisier
             unsigned char c = fgetc(file);
             unsigned int asciiCode = (unsigned int)c;
-            if (c=='\0')
-                break ;
 
             for(int i = 0; i < 8; i++)
             {
@@ -70,6 +68,18 @@ void deserializeTree(FILE *file, nod*& root)
     root ->caracter = character;
     deserializeTree(file,root->stg);
     deserializeTree(file,root->drt);
+}
+
+void numCaracterFisier(string cod, unsigned int &numC)
+{
+    for(unsigned int i = 0 ; i < cod.size(); i++) {
+        ++bytCurent;
+        if(bytCurent == 8)
+        {
+            numC++;
+            bytCurent = 0;
+        }
+    }
 }
 
 void scrieByte(FILE *file, string cod)
@@ -224,6 +234,7 @@ void parcurgereArbore(nod *rad, unsigned int &index, string cod, FILE *fisierDec
     if(rad -> stg == NULL && rad -> drt == NULL)
     {
         fwrite(&rad -> caracter, sizeof(char),1,fisierDecompresat);
+        cout << rad ->caracter;
         //cout << rad -> caracter;
         //cout << "index:" << index;
         return;

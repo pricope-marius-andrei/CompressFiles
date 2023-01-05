@@ -19,17 +19,13 @@ string citireCaractereFisierCompresat(FILE *file, int lungime)
             {
                 if(asciiCode) {
                     if(asciiCode % 2 == 0) {
-                        //cout << '0';
                         codare.push_back('0');
                     }
-                    else
-                    {
-                        //cout <<'1';
+                    else {
                         codare.push_back('1');
                     }
                 }
-                else
-                {
+                else {
                     codare.push_back('0');
                 }
                 asciiCode /= 2;
@@ -207,13 +203,11 @@ void codareCaractere(nod *rad, string cod)
     if(rad -> stg == NULL && rad -> drt == NULL)
     {
         ///retinem codurile intr-un hashmap
-        //cout <<rad->caracter << '\n';
         coduri[rad->caracter] = cod;
         return;
     }
     else
     {
-        //cout <<rad->caracter << rad->frec << '\n';
         codareCaractere(rad->stg, cod + "0");
         codareCaractere(rad->drt, cod + "1");
     }
@@ -234,9 +228,6 @@ void parcurgereArbore(nod *rad, unsigned int &index, string cod, FILE *fisierDec
     if(rad -> stg == NULL && rad -> drt == NULL)
     {
         fwrite(&rad -> caracter, sizeof(char),1,fisierDecompresat);
-        cout << rad ->caracter;
-        //cout << rad -> caracter;
-        //cout << "index:" << index;
         return;
     }
     else

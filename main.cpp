@@ -192,8 +192,6 @@ int main(int argc, char *argv[])
                 ///pentru a evita scrierea unor caractere in plus
                 int numarCurentCaractere = 0;
 
-                cout << lungimeInitialText << endl;
-
                 string codare = citireCaractereFisierCompresat(fisierCompresat,numBinCaracters);
                 while(index < codare.size() && numarCurentCaractere != lungimeInitialText - 1)
                 {
@@ -204,40 +202,8 @@ int main(int argc, char *argv[])
 
                 codare.clear();
             }
-            cout << '\n';
 
-            // Create a systemtime struct
-            SYSTEMTIME thesystemtime;
-
-            // Get current system time and then change the day to the 3rd
-            // You can also change year, month, day of week etc
-            GetSystemTime(&thesystemtime);
-
-
-
-            tm *local_time = localtime(&fisierCurent.dataCreareFisier);
-
-            thesystemtime.wDay = local_time->tm_mday;
-            thesystemtime.wMonth = local_time->tm_mon;
-            thesystemtime.wYear = local_time->tm_year;
-            thesystemtime.wHour = local_time->tm_hour;
-            thesystemtime.wMinute = local_time->tm_min;
-            thesystemtime.wSecond = local_time->tm_sec;
-
-            // Create a FILETIME struct and convert our new SYSTEMTIME
-            // over to the FILETIME struct for use in SetFileTime below
-            FILETIME thefiletime;
-            SystemTimeToFileTime(&thesystemtime,&thefiletime);
-
-            // Get a handle to our file and with file_write_attributes access
-            HANDLE filename = CreateFile(copiePath, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-
-            // Set the file time on the file
-            //SetFileTime(filename,(LPFILETIME) NULL,(LPFILETIME) NULL,&thefiletime);
-            SetFileTime(filename, &thefiletime, (LPFILETIME) NULL,(LPFILETIME) NULL);
-
-            // Close our handle.
-            CloseHandle(filename);
+            modificareDataCreareFisier(copiePath,fisierCurent.dataCreareFisier);
         }
 
         fclose(fisierCompresat);

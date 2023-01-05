@@ -9,7 +9,7 @@
 
 1671700603 D
 
-1672934342 source:d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\main.cpp
+1672936564 source:d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\main.cpp
 	<iostream>
 	<algorithm>
 	<stdlib.h>
@@ -21,7 +21,7 @@
 	"gestionareFisiere.h"
 	<windows.h>
 
-1672825813 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\huffmanalghoritm.h
+1672936422 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\huffmanalghoritm.h
 	<iostream>
 	<vector>
 	<cmath>
@@ -61,8 +61,9 @@
 1672825813 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\structures.h
 	<map>
 
-1672825813 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\gestionarefisiere.h
+1672936346 d:\programming\facultate\ip\proiect compresie fisiere\compressfiles\gestionarefisiere.h
 	<cstring>
+	<windows.h>
 
 1671700603 
 
